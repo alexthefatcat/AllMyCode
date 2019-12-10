@@ -1,0 +1,43 @@
+# Notes
+
+  
+
+  #UnitTest
+    The two folders in this file to do with unittests are:-
+    #circles.py
+    #test_circles.py
+    too run the unittest do something like:-
+    # pytohn -m unittest test_circles
+
+  #Logging
+    saves certain lines and messages to a log file 
+    
+    if you want to disable logger in script
+      logger.disabled = True
+      ... whatever you want ...
+      logger.disabled = False
+
+  #Recurssion
+   
+  > Logging
+  > MetaClass
+  > Decorators
+  > Asinco
+  > pdb  
+  > gui
+  > generators
+  > GIT/mergerequests-jenkins
+
+
+git
+
+
+@property(self)
+  def fullname
+
+add method python
+
+
+
+
+
