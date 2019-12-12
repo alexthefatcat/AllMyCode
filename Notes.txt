@@ -1,5 +1,7 @@
 Advanced
    generators 
    decorators
+   debuging
+   threading / multiprocessing
 Medium
    imports

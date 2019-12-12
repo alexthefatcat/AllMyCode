@@ -33,9 +33,13 @@ for n in range1(3000):
 
 #################################################################  
 
-
+def sort_list_by_other_list(lis1,lis2):
+    return [x for _,x in sorted(zip(lis2,lis1),key=lambda x:x[0])]
+ 
+def sort_by_index(lis1,lis2):
+    return [lis1[ind] for ind in lis2]
              
-        
+#################################################################          
         
         
         
