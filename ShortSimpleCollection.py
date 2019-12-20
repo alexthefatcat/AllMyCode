@@ -40,12 +40,18 @@ def sort_by_index(lis1,lis2):
     return [lis1[ind] for ind in lis2]
              
 #################################################################          
+
+def string_limit(string,length,fillchar=" ",how="right"):
+    if how in ["r","right"]:
+       return str(string).ljust(length,fillchar=fillchar)[:length]
+    if how in ["l","left"]:
+       return str(string).rjust(length,fillchar=fillchar)[length:]
+
+if __name__ == "__main__":
+    string_limit("abcde",8) 
+    string_limit("abcdefghijklmnopqrstuv",8)           
         
-        
-        
-        
-        
-        
+#################################################################           
         
         
         

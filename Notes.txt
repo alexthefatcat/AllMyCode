@@ -5,3 +5,15 @@ Advanced
    threading / multiprocessing
 Medium
    imports
+
+MachineLearning
+   timeseries
+   graphs python (trees)
+
+WebScrape
+
+Cloud
+Data
+
+
+pyGUISimple

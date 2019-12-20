@@ -1,6 +1,6 @@
 # Notes
 
-  
+  + code blocks
 
   #UnitTest
     The two folders in this file to do with unittests are:-
@@ -18,6 +18,7 @@
       logger.disabled = False
 
   #Recurssion
+      > hanoio
    
   > Logging
   > MetaClass
@@ -36,6 +37,49 @@ git
   def fullname
 
 add method python
+
+
+
+## Things Left To Learn In Python
+
+ * itertools
+ * imports
+ * maybe write up genrators
+ * decorators
+ * sql
+ * django
+ * New in Python 3.7 / 3.8
+ * game of life
+ * ui
+ * java interactive ui web
+ * #MetaProgramming
+ * #Logging
+ * #Unit tests
+ * #Pandas
+ * #keras_extra_lib*
+ * #web_scrape_lib
+ * #general_lib
+
+
+
+
+# PythonPubQuiz
+> how many christmas presents 1,12,123
+
+
+
+
+
+reccurent nets
+LSTMS
+
+
+
+
+
+
+
+
 
 
 
