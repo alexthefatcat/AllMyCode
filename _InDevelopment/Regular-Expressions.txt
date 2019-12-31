@@ -1,0 +1,68 @@
+regexp
+"""
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+1234567890
+
+Ha HaHa
+
+MetaCharacters (Need to be escaped):
+
+.[{()\^$|?*+
+
+coreyms.com
+
+321-555-4321
+123.555.1234
+
+Mr. Schafer
+Mr Smith
+Ms Davis
+Mrs Robinson
+Mr. T
+
+[1-7]    same as [1234567]
+[a-f]    same as [abcdef]
+[a-fA-C] same as [abcdefABC]
+[^A-C]^ isnt
+| Either
+( group)
+
+Quantfiters:
+* 0 or more
++ 1 or more
+? 0 or 1
+{3} exact number
+{3,5}
+
+
+allcharceter(nonnew line) "." for all characters
+for normal                "a" for "a"
+for metachars             "\."  for "."
+\d for digits ,                  \D for non digits
+\w for word charcters,           \W for non word charcters
+\s whitespace tab newline space, \S for non white search 
+\b word boundry                  \ non word boundry
+Ha$ end of string line
+"""
+
+telphone number
+\d\d\d.\d\d\d.\d\d\d
+[] character set anything inthem is searched
+\d\d\d[-.]\d\d\d[-.]\d\d\d
+
+[89]00[-.]\d\d\d[-.]\d\d\d
+
+\d{3}.\d{3}.\d{4}
+
+
+Mr\.?\s[A-Z]\w*
+Mr. Schafer,Mr Smith,Mr. T
+
+Mr(r|s|rs)\.?\s[A-Z]\w*
+Mr. Schafer,Mr Smith,Ms Davis,Mrs Robinson,Mr. T
+
+[A-Za-Z0-9.-]+@[A-Za-Z-]+\.(com|edu|net)
+
+
+https?://(www\.)?(\w+)(\.\w+)

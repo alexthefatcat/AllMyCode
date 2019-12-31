@@ -1,0 +1,264 @@
+https://htmlcheatsheet.com/css/
+https://htmlg.com/html-editor/
+
+
+# CSS AS WELL
+#creating a HTML template like banner
+programs to make html sites
+create a dynamic HTML CONTRCTION WEBSITE
+pytohn code in a html javascri
+HTML mark up
+PyMarkup
+pytohn code in website
+decide where buttons go HTML
+ajax html
+
+
+
+#######################################################################################
+
+                                 HTML Guide
+
+#######################################################################################
+Tags
+elements names surounded by angle braxkets <>
+
+<tagname>content<tagname>
+<h1>About Us</h1>    # normally ceomes in
+<p>This is a paragraph</p>
+<br/>(selfclosing <br> works in html5)
+
+<!DOCTYPE html> at the top for HTML
+body is what shows
+<!--  this is a comment so not parsed
+
+<h1> to <h6> exist smaller heading are learger font(also padding below)
+<p> is a paragraph
+
+block level : <div>, <ht to h6>, <p>, <form>
+inline level: <span>, <img>, <a>
+
+Attributes
+
+<strong>default will make text bold<strong>
+<em> empsae text inbetween default italic<em>
+
+Links <a>
+    <a href="http.externalwebsite.com" target="_blank">text to highlight link </a>
+open link, target =_blank" open up it new tab
+
+Lists
+Unorded Lists # ordered but with bullet points
+<ul>
+   <li>List item 1</li>
+   <li>List item 2</li>
+   <li>List item 3</li>
+</ul>
+
+Ordered Lists # numbered
+<ol>
+   <li>List item 1</li>
+   <li>List item 2</li>
+   <li>List item 3</li>
+</ol>
+
+Tables
+
+<table>
+     <thead>
+          <tr>
+               <th>colname1</th>
+               <th>colnam2</th>
+               <th>colname3</th>
+          </tr>
+     </thead>
+     <tbody>
+          <td>
+               <th>e1</th>
+               <th>e2</th>
+               <th>e5</th>
+          </td>
+
+     </tbody>
+</table>
+
+
+#### Forms
+
+#action  where to send it method 
+<form action="process.php" method ="POST">
+   <div>
+         <label> First Name</label>
+         <input type="text" name ="firstName"
+          value="Enter first name">
+   </div>
+   <br> 
+   <div>
+         <label> Lat Name</label>
+         <input type="text" name ="lastName"
+          placeholder="Enter second name"
+    </div>
+    <div>
+         <label> Email</label>
+         <input type="email" name ="lastName">
+    </div>
+    <br> 
+    <div>
+         <label> Gender</label>
+         <select type="gender">
+               <option value="male"  >Male  </option>
+               <option value="female">FeMale</option>
+    </div>
+    <div>
+         <label> AGE:</label>
+         <input type="number" name ="age">
+    </div>
+    <inpt type="submit" name ="submit" value="Submit"> 
+</form>
+<img src="sample.jpg">
+
+
+<br>#line bread
+<hr> line across
+<img> is self closing tag
+# image is in folder with the same name
+<a href ="location of the actual image">
+   <img src="sample.jpg" width="200">
+</a>
+
+<blockquote>
+<abbr> hover over gives over info
+
+#below titles
+<meta name ="descitpon" content "Awesome blof">
+###############################################
+# Simple web page
+
+<!DOCTYPE html>
+<html>
+      <head>
+           <title>PAGE Title</title>
+      </head>
+<!--    The body comment
+      <body>
+           <h1>My First Heading</h1>
+           <h2>My First Heading</h2>
+           <p>My First Paragraph</p>
+           <p>It's another paragraph with <strong>bold<strong> being in bold</p>
+      </body>
+</html>
+
+
+#HTML5 semntic tags
+
+     <header>
+       <nav>
+<section>
+         <aside >
+<article>
+
+      <footer>
+
+
+#######################################################################################
+
+                                 CSS Guide  PHP? with python HTML
+
+
+
+#######################################################################################
+
+CSS - Cascading Stylesheets
+website layout and design
+
+css cheat sheet
+
+inline   : directly in the html element(bad)
+internal : <style> tags within a single document (better)
+external : Linking an external .cc file   (best most common)
+
+## bad way
+<h1 style="color:red">Hello World</h1>
+
+## put this in the header
+<style type="text/css"
+h1{color:blue;}</style>
+################################
+BEST WAY CREATE AN EXTERNAL others shown to show you how to the others but ignore
+#in the header grabs style external
+<link rel ="stylesheet" type="text/css" href="css.style.css">
+################
+exteral .css
+h1{
+    color:green
+  }
+
+################
+
+selector    property       value 
+    a {  background-color:yellow; }
+{}decleration start finish, decleration deperator
+#################################################
+body{
+     background-color:#f4f4f4;
+     color:#555555;                              #text color
+     font-family: Arial, Helvetica, sans-serif;  #if it cant get arieal it will get the next one
+     font-size:16px;
+     font-weight:normal
+     #can replace font with this line
+     font: normal 16px Arial,Helveticca, sans-serif;
+     line-height:1.6em 
+     margin:0
+ 
+}
+
+colors in css colornames(red) HTML5(coral) Hexadedicaml(#00ff00), rgb( rgb(0,0,256))
+
+#in html code
+ <div class="box-1">
+  #id and class treated the same but
+  #general use id is unique elements# rule dont repeat id's
+  #class may be used more
+ "#" for ids "." for classes
+#anything in the container
+.container{
+    #width:960px
+    width:80%
+    margin:auto;
+}
+
+.box-1{
+    background-color:#333;
+    color:#fff;
+
+#border-top:5px ;
+#border-bottem:5px
+#border-right:10px
+#border-left:10px
+same as
+border:5px 10px 5px 10px red solid;
+border-top-style:dotted
+
+padding-top:20px;
+
+}
+
+
+
+margin-top:5px ;
+margin-bottem:5px
+margin-right:10px
+margin-left:10px
+same as
+margin:5px 10px 5px 10px
+
+
+
+
+
+
+at the top will give defaults
+*{
+   margin:0
+   padding:0
+}
