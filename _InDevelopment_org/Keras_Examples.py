@@ -3,38 +3,7 @@
 ##########################################################################
 ##########################################################################
    Keras Examples
-##########################################################################  
-  \n \\n \\\n \ \\ \\\ \a \\a \\\a
-HighwayNetify
-adversial_learn_BCE
-VarAutoEncoderify
-get_random_images
-generator_noise
-stretch
-copylayerfromanotherlayer
-NewLoss1
-NewLoss2
-NewLoss3
-NewLoss4
-NewLoss
-mean_squared_error
-Dense_SelectedFreeze
-Dense2
-Dense2
-clip_norm
-reverse_generator
-reverse_generator
-add_noise
-predict_test
-QuickCreateModel
-GetLayerFunction
-get_intermidate_layer_func
-rolling_prediction
-GetLayerFunction
-Loss
-blank_list
-show_imgs   
-   
+##########################################################################   
 """
 from keras import backend as K
 from keras.models import Model

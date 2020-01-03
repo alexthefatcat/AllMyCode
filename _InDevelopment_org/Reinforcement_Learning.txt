@@ -1,0 +1,270 @@
+
+# Differential Computer,RL, RNN(LSTM,GRU), NLP, VAE, GAN, CONV
+
+
+Agent is given info(about the enviroment, the state St) and makes a discision(action examp up or down)
+the discenion is feed into the enviroment, the enivroemnt reacts(as well as reward)
+
+                
+                      ------------------------------
+            --------->|                            |
+            |         |        Agent               |>----- descion
+            |    ---->|                            |     |
+            |    |     ------------------------------    |
+            |    |                                       |
+     state  |    | reward                                | 
+            |    |                                       |           
+            |    |    ------------------------------     |
+            |    ----<|                            |     |
+            |         |        Enviroment          |<-----
+            ---------<|                            |     
+                      ------------------------------     
+
+networks starts of random
+
+The NN output gives 0.7 up 0.3 down
+the NN might 70% chose up
+
+if action gives postive reward backprop that increases that probability
+if action gives negative
+
+Policy Gradients
+
+like the above, no q
+
+
+
+Q-Learning attempts to learn the value of being in a given state, and taking a specific action there.
+
+Q-Learning(agent policy called Q  Q[s,a]=value)
+----------------------------------------------
+    Q function is the best predicted score after perforeing action the agent can get, state (score being the score when game finished)
+    Q = immeddiate reward + future reward
+    P(s)=>a P is policy function given state s it returns a action
+    P(S)=argmax_a(Q[s,a])#  ideally a should be the a which leads to Q haveing the highest value
+    P* best policy Q* correct function
+
+
+
+
+### Advanced(basically efforts to overcome sparse rewards)  ###
+
+    additional rewards signals
+        The agents learn to pixel control(given a freame a differnt policy to maimally change in certain grids)
+        this forces the feature extractive become sensative to general dynamics to the game envorpment
+        
+        reward prediction it is given 3 recent frames and asked to predict the reward in the next step
+        
+        value function replay predict the value of the current state ie predcit the future reward
+    
+    currosity driven exploritatly
+    
+        incentaive to explore new areas greedy exploration e 
+        which means that it does a random action inseatd of policy
+        overtime e is reduced
+
+        A Forward Model
+            auto-encoder what happends next( use prediction errors predict next state 
+            if crap as prediciting it means this is new and incentavize)
+            
+            Intrinic currosicty module
+               s0 s1 first encoded to latent ls0 ls1
+               forward model ls0 and action stries to predict ls1
+               inverse model to predict action for ls0 from ls1
+               forward model predicted ls1 compared to ls1 gives suprise(add to reward signal)
+
+    hignesight experinece replay
+        want to learn from episodes even if there are unsuceful
+        if football fails to score, then kicks the ball but misses reward this
+    
+    have reward prediction
+
+##
+skilss
+learn to do hard things that make state irreversable
+
+
+policy agents vs q-learning
+how to backprop in policy and q-learning
+
+A close variant called Double DQN (DDQN) basically uses 2 neural networks to perform the Bellman iteration,
+ one for generating the prediction term and the other for generating the target term.
+"""
+
+
+
+
+
+
+#%%################################################################################################################################       
+"""                                   A Game which is in this case is the envoroment "3s Chasing 2s"                                                               """       
+###################################################################################################################################   
+
+
+
+from random import randint
+class game_enviroment():
+   def __init__(self):
+       self.score = 0
+       self.img_sz = 12
+       self.characters = {"goal":{"value":2},"character":{"value":3}}
+       self.create_landscape(2)
+       self.start_game( True)
+       self.print_image_with_move = True
+       self.nmoves=0
+       if self.print_image_with_move:
+           self.print()
+
+
+   def _random_coordinate(self, max_val=None, min_val=0 ):
+       #print("in<<",max_val,min_val,self.img_sz)
+       if max_val is None:
+           max_val=self.img_sz-1
+       if 0> max_val:
+           max_val = self.img_sz + max_val
+       #print("min max fed into the randint in ranm cordinate gernatetor",min_val, max_val)    
+       return [randint(min_val, max_val), randint(min_val, max_val)]
+   
+   def _add(self, m,n):
+       return [mm+nn for mm,nn in zip(m,n)]
+
+
+   def create_landscape(self, holes=1):
+        img_sz = self.img_sz
+        def create_empty_img(img_sz):
+            return [[0]*img_sz]*img_sz
+        # Enviroment is a game
+        def add_border(img):
+            for i,line in enumerate(img):
+                if i in [0, img_sz-1]:
+                    line = [1]*img_sz
+                else:
+                    line = [1]+line[1:-1]+[1]
+                img[i] = line
+            return img
+        
+        def keep_in_limits(arr,mx=self.img_sz-1):
+            return [[[sorted([1,z,mx])[1] for z in n] for n in hole_] for hole_ in arr]
+            
+        def random_hole_corners(nholes):
+            holes=[]
+            for hole in range(nholes):
+                LT =self._random_coordinate(-5,1)
+                difference = self._random_coordinate(5,2)
+                RB = self._add(LT,difference)
+                hole_i = [LT,RB]
+                holes.append(hole_i)
+                #print(holes,"holes")
+            holes = keep_in_limits(holes)    
+            return holes
+        
+        def add_hole(img, corners_of_hole):
+            """[((l,t),(r,b))]            """
+            for hole in corners_of_hole:
+                for i,line in enumerate(img):
+                   if hole[0][0]<=i<=hole[1][0]:
+                        for ii, elem in enumerate(line):
+                           if hole[0][1]<=ii<=hole[1][1]:                
+                               line[ii]=8
+                   img[i] =line
+            return img
+        
+        self.img_landscape = create_empty_img(img_sz)
+        self.img_landscape = add_border(self.img_landscape)            
+        self.corners = random_hole_corners(holes)#[[(3,5),(6,6)]]
+        self.img_landscape = add_hole(self.img_landscape, self.corners)
+        
+   def create_blank_img_from__img_landscape(self):
+        self.img = [n.copy() for n in self.img_landscape]
+        
+   def add_chracter_or_goal(self,name):
+        while True:
+            loc = self._random_coordinate()
+            val_cur = self.img[loc[0]][loc[1]]
+            if val_cur in [0]:
+                   self.img[loc[0]][loc[1]]= self.characters[name]["value"]
+                   self.characters[name]["loc"      ] = loc
+                   self.characters[name]["start_loc"] = loc
+                   break
+
+   def print(self):
+        print("")
+        print(f"Score: {self.score}, Move No:,{self.nmoves}")
+        [print(n) for n in self.img]
+        print("")
+        
+   def __draw_in_img(self,loc,val=None):
+       if val ==None:
+           val = self.img_landscape[loc[0]][loc[1]]
+       self.img[loc[0]][loc[1]] = val
+       
+   def move_person(self, move, name="character",draw=True):
+        """
+        move (0,1):right  (1,0):down     (0,-1):left    (-1,0):up
+        """
+        
+        future_loc = [m+n for m,n in zip(self.characters[name]["loc"], move)] 
+        move_val   = self.img[future_loc[0]][future_loc[1]]
+        self.nmoves+=1
+        self.score+=1
+        if   move_val in [1]:
+            self.score+=1
+        else:
+            if   move_val in [8]:
+                self.score+=50
+                future_loc = self.characters[name]["start_loc"]
+            elif move_val in [2]:
+                self.score-=20
+                self.start_game()
+            
+            if draw:
+                self.__draw_in_img(self.characters[name]["loc"]) 
+                self.__draw_in_img(future_loc, self.characters[name]["value"]) 
+            self.characters[name]["loc"] = future_loc
+        if self.print_image_with_move:
+            game.print()
+            
+   def start_game(self, move_character=False, new_landscape=False):
+       print("startgame")
+       if new_landscape:
+           self.create_landscape()
+       self.create_blank_img_from__img_landscape()
+       if move_character:
+          self.add_chracter_or_goal("character")
+       else:
+          self.__draw_in_img(self.characters["character"]["loc"], self.characters["character"]["value"])   
+       self.add_chracter_or_goal("goal")
+
+#%%################################################################################################################################       
+"""                                   Reinforcement Part                                                               """       
+###################################################################################################################################   
+
+move_options = {0:[0,1], 1:[1,0], 2:[0,-1], 3:[-1,0]}
+
+#   reward       state           decesion 
+# game.score,    game.img,     game.move_person[ move_options[0] ]
+
+game = game_enviroment()#"3s Chasing 2s" 
+#game.print_image_with_move = False
+game.move_person( move_options[0])
+game.move_person( move_options[2])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
