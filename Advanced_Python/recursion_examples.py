@@ -4,7 +4,7 @@
 def IterateThroughFunction(func,coun=32):
     for n in range(coun):
         c=0
-        if n==32:
+        if n==coun:
             n=5
         print(f"   Fib fib({n}) = {func(n)} , calls = {c}")
     
@@ -91,14 +91,14 @@ def unnest_nested_container(obj,unnested_list=None):
              print("#",ind)
              unnested_list = unnested_list +[ind]
              print("###",unnested_list)             
-             val = unnest_nested_container(obj_child,unnested_list=unnested_list,nested_index=nested_index)
+             val = unnest_nested_container(obj_child,unnested_list=unnested_list,unnested_list=unnested_list)
      else:
          
-         return [nested_index,obj]
+         return [unnested_list,obj]
          
              
 dog = [[1,2,[2,3,[[4]]]],5,[[6]]]
-val = unnest_container(dog)          
+val = unnest_nested_container(dog)          
 
 
 

@@ -1,6 +1,23 @@
 # -*- coding: utf-8 -*-
 """Created on Fri Nov 22 12:56:59 2019@author: Alexm"""
 
+Running code
+
+ main.py python
+ main.py -i python
+ # second one lets you get variables out
+and often write function blocks at top
+
+and then below that write
+
+if __name__ == "__main__":
+    pass
+
+
+
+
+#PEP8 and More
+
 Variable        : caseandseparated_with_underscores
 function names  : caseandseparated_with_underscores
 Named constants : ALL_CAPITAL_LETTERS
@@ -84,6 +101,10 @@ functions at the top
 when to use classes
    bundle of mutuable data
 with assicated functions
+
+Functional try not to mutate the values of the object
+sometimes better to use tuple instead of lists for this reason
+all try to include the random seed as one of the inputs into the function if it include randomeness
 
 
 data
@@ -190,7 +211,181 @@ More Names to Avoid
     Avoid names that sound similar
 
 
+###########################################################################################
 
 
+project_root/
+│
+├── project/  # Project source code
+├── docs/
+├── README
+├── HOW_TO_CONTRIBUTE
+├── CODE_OF_CONDUCT
+├── examples.py
+
+
+maybe file called tests.py
+
+
+
+############################################################################################
+    """                         DOC STRINGS                                             """
+
+
+
+
+No info on wheather there should be a docstring for the compete string describing what it does
+
+class Animal:
+    """
+    A class used to represent an Animal
+
+    ...
+
+    Attributes
+    ----------
+    says_str : str
+        a formatted string to print out what the animal says
+    name : str
+        the name of the animal
+    sound : str
+        the sound that the animal makes
+    num_legs : int
+        the number of legs the animal has (default 4)
+
+    Methods
+    -------
+    says(sound=None)
+        Prints the animals name and what sound it makes
+    """
+
+    says_str = "A {name} says {sound}"
+
+    def __init__(self, name, sound, num_legs=4):
+        """
+        Parameters
+        ----------
+        name : str
+            The name of the animal
+        sound : str
+            The sound the animal makes
+        num_legs : int, optional
+            The number of legs the animal (default is 4)
+        """
+
+        self.name = name
+        self.sound = sound
+        self.num_legs = num_legs
+
+
+
+def get_spreadsheet_cols(file_loc, print_cols=False):
+    """Gets and prints the spreadsheet's header columns
+
+    Parameters
+    ----------
+    file_loc : str
+        The file location of the spreadsheet
+    print_cols : bool, optional
+        A flag used to print the columns to the console (default is
+        False)
+
+    Returns
+    -------
+    list
+        a list of strings used that are the header columns
+    """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######################################################################################################
+"""                            Design Patterns                                              """    
+    
+Design Patterns
+
+Program to an interface not an implementation
+Using Duck Typing, we do not check types at all. Instead, we check for the presence of a given method or attribute.  An interface means you expect certain methods to be present and standardised across objects
+
+Favor object composition over inheritance.
+Composition:We use it when we want to use some aspect of another class without promising all of the features of that other class. So One of the attribtutes is a object of this class. we want to use some of its features of a list but not all Example:- 
+
+In [46]: class Accumulator(object):
+   ....:     def __init__(self):
+   ....:         self._container = []
+   ....:     def accumulate(self, obj):
+   ....:         self._container.append(obj)
+   ....:     def stuff(self):
+   ....:         return self._container[:]
+   ....:
+
+
+You know, one of the best principles for good code is the Single Responsibility principle.
+Every piece of code must do one, and only one, thing.  This principle is deeply integrated in this design pattern.
+
+Structural Patterns
+FACADE: Example one object deals with other ones to help client
+
+class Car(object):
+
+    def __init__(self):
+        self._tyres = [Tyre('front_left'),
+                             Tyre('front_right'),
+                             Tyre('rear_left'),
+                             Tyre('rear_right'), ]
+        self._tank = Tank(70)
+
+    def tyres_pressure(self):
+        return [tyre.pressure for tyre in self._tyres]
+
+    def fuel_level(self):
+        return self._tank.level
+There is no surprise, no tricks, the Car class is a Facade, and that’s all.
+
+
+ADAPTER: When you expect it to have a method but it doesnt
+
+import socket
+
+class SocketWriter(object):
+
+    def __init__(self, ip, port):
+        self._socket = socket.socket(socket.AF_INET,
+                                     socket.SOCK_DGRAM)
+        self._ip = ip
+        self._port = port
+
+    def write(self, message):
+        self._socket.send(message, (self._ip, self._port))
+
+def log(message, destination):
+    destination.write('[{}] - {}'.format(datetime.now(), message))
+
+upd_logger = SocketWriter('1.2.3.4', '9999')
+log('Something happened', udp_destination)
+But why do I find adapter so important? Well, when it’s effectively combined with dependency injection, it gives us huge flexibility. Why alter our well-tested code to support new interfaces when we can just implement an adapter that will translate the new interface to the well known one?
+
+Decorators:
+The decorator pattern is about introducing additional functionality and in particular, doing it without using inheritance.
+
+#https://www.toptal.com/python/python-design-patterns    
 
 
