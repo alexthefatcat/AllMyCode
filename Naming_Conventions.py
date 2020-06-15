@@ -135,6 +135,7 @@ x__house_features
 y__house_prices
 yp__houseprices
 
+# X, Y, y # Capital for real lower case for predicted?
 
 
 
@@ -225,6 +226,28 @@ project_root/
 
 
 maybe file called tests.py
+
+
+
+#### Maybe When Requires Steps #########################
+A_data(step 1) # folder # these can have folders which are ignored
+B_data(step 2) # folder
+main_transform_A_to_B(step_1).py
+main_transform_B_to_C(step_2).py
+main.py
+checks.py
+general_functions.py
+specific_functions.py
+out    # folder
+checks # folder
+#############################################################
+
+
+
+
+
+
+
 
 
 

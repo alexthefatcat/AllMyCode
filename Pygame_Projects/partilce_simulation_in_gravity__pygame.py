@@ -30,7 +30,7 @@ G = 0.3
 WRAP                     = False
 DEFLECT                  = True
 JOIN_IF_NEAR             = False
-SLOW_DOWN_HIGH_VELOCITIY = False
+SLOW_DOWN_HIGH_VELOCITIY = True
 LIMIT_TO_CENTER_QUATER   = True
 
 if SLOW_DOWN_HIGH_VELOCITIY:
