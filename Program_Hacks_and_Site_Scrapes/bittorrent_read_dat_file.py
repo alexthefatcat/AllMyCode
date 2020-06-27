@@ -15,7 +15,7 @@ def string_io_pandas_example():
 def lsplit_into_two(string):
     return ([""]+string.split(":",1))[-2:]
 
-filename = "resume.dat"
+filename = r"C:\Users\Alexm\Desktop\resume.dat"
 
 def read_dat_file_to_list(filename):
     with open(filename,'r', encoding="ISO-8859-1") as fileobj:#'utf-8'
@@ -37,48 +37,35 @@ def read_dat_file_to_list(filename):
 
 
 
-def split_by_before_after_odd(string,before,after):
+def split_by_brackets(string,before="{",after="}"):
     """
     string0 = "adcrecr{first}sdcsds}dsd{sa{second}"
-    lstring0 = split_by_before_after_odd(string0,"{","}")
+    lstring0 = split_by_brackets(string0)
     data = lstring0[1::2]
     # data => ['first', 'second']
     """
     parts1 = string.split(before)
     parts2 = [ part.split(after,1) for part in parts1]
 
-    out = []
-    for line in  parts2:
-        if out == []:
-           out = [""] 
+    for i,line in  enumerate(parts2):
+        if i == 0:
+           out = [after.join(line)] 
         else:            
            out[-1] = out[-1]+before
-        if len(line)==1:
-            out[-1] = out[-1]+line[0]
-        else:
-            out.extend([line[0], after+line[1]])
+           if len(line)==1 :
+              out[-1] = out[-1]+line[0]
+           else:
+              out.extend([line[0], after+line[1]])
     return out    
  
 
+ 
 
 def get_completedate(string,before="completei",after="e11",gettime=True):
-    parts = string.split(before)
-    if len(parts)==2:
-        parts2 = parts[1].split(after)
-        if len(parts2)>1:
-            out = parts2[0]
-            if not gettime:
-                return out
-            
-            out_int=time.ctime(int(out))
-            return out_int
-    return None
-
-def get_completedate(string,before="completei",after="e11",gettime=True):
-    global string2
-    string2=string
-    global data
-    data = split_by_before_after_odd(string,before,after)
+#    global string2
+#    string2=string
+#    global data
+    data = split_by_brackets(string,before,after)
     if len(data)>1:
        print(data) 
        out_int=time.ctime(int(data[1]))
