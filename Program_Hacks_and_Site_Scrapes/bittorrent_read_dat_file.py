@@ -4,6 +4,28 @@
 import pandas as pd
 import time
 
+def get_files_from_folder(folder=".",endswith=None,ignore_these=None,single=False):
+    " Returns a list of files in this folder but ignore folders and files in them"
+    from os import listdir
+    from os.path import isfile, join
+    files = [join(folder, f) for f in listdir(folder) if isfile(join(folder, f))]
+    if endswith is not None:
+        files = [f for f in files if f.endswith(endswith)]
+    if ignore_these is not None:
+        listify = lambda x: x if type(x) is list else [x]
+        ignore_these = listify(ignore_these)
+        files = [f for f in files if not any([ i in f for i in ignore_these])]
+    if single:
+        assert 1==len(files)
+        return files[0]
+    return files 
+
+
+filename = get_files_from_folder("bittorent_in",".dat","ignore",True)
+
+ 
+
+
 def string_io_pandas_example():
     import io
     output = io.StringIO()
@@ -15,7 +37,6 @@ def string_io_pandas_example():
 def lsplit_into_two(string):
     return ([""]+string.split(":",1))[-2:]
 
-filename = r"C:\Users\Alexm\Desktop\resume.dat"
 
 def read_dat_file_to_list(filename):
     with open(filename,'r', encoding="ISO-8859-1") as fileobj:#'utf-8'
@@ -32,6 +53,10 @@ def read_dat_file_to_list(filename):
             line_new = line[1]
         data3.append(line_new+":"+next_line[0])
     return data3
+
+
+
+
 
 
 
