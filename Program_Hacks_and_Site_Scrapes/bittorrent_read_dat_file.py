@@ -28,6 +28,8 @@ def get_files_from_folder(folder=".",endswith=None,ignore_these=None,single=Fals
         return files[0]
     return files 
 
+
+## example code move to useful
 def string_io_pandas_example():
     """
     This an example of using string io
@@ -76,6 +78,9 @@ def read_raw_data(filename):
 
 
 def convert_raw_data_to_list_with_each_torrents_data_as_a_element(raw_data0):
+    """
+    converts the raw file to a list with each element the string of data for a torrent
+    """
     string_just_before_start_of_torrent = "webseedslee"
     data2 = "\n".join(raw_data0)
     *data2_start,data2 = data2.split(":",3)
@@ -105,6 +110,7 @@ def convert_torrent_list_to_df__complete_date(string,before="completei",after="e
  
 def convert_torrent_list_to_df(data):
     """
+    This converts a list with each element for a string with all the info for a torrent
     Add more columns if needed
     """
     completed_lis = []
@@ -116,12 +122,36 @@ def convert_torrent_list_to_df(data):
     df["Completed"] = pd.to_datetime(df["Completed"] )
     return df
 
+def main(filename=None,filepath=None):
+    if filepath is None:
+        if filename is None:
+            filename = "bittorent_in"
+        filepath = get_files_from_folder( filename,".dat",["ignore","Notes.txt"],True)
+        
+    raw_data0 = read_raw_data(filepath)
+    
+    data__torrents1, *_extra = convert_raw_data_to_list_with_each_torrents_data_as_a_element(raw_data0)
+    torrent_df = convert_torrent_list_to_df(data__torrents1)
+    
+    out = {"raw_data"    : raw_data0,
+           "torrent_lis" : data__torrents1,
+           "torrent_df"  : torrent_df,
+           "_extra"      : _extra,
+           "filepath"    : filepath}
+    return out
+
 #%%------------------------------------------------------------------------------
+
+
+
 
 
 if __name__ == "__main__":
     
-    filename = get_files_from_folder("bittorent_in",".dat","ignore",True)
+    # main is best used if importing functions using another script
+    out = main(filename=None,filepath=None)
+    
+    filename = get_files_from_folder("bittorent_in",".dat",["ignore","Notes.txt"],True)
     raw_data0 = read_raw_data(filename)
     
     data__torrents1, *_extra = convert_raw_data_to_list_with_each_torrents_data_as_a_element(raw_data0)
