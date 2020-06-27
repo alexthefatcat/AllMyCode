@@ -4,6 +4,14 @@
 import pandas as pd
 import time
 
+
+
+
+
+
+
+
+#%%------------------------------------------------------------------------------
 def get_files_from_folder(folder=".",endswith=None,ignore_these=None,single=False):
     " Returns a list of files in this folder but ignore folders and files in them"
     from os import listdir
@@ -16,51 +24,25 @@ def get_files_from_folder(folder=".",endswith=None,ignore_these=None,single=Fals
         ignore_these = listify(ignore_these)
         files = [f for f in files if not any([ i in f for i in ignore_these])]
     if single:
-        assert 1==len(files)
+        assert 1==len(files), f"{len(files)} where found not 1"
         return files[0]
     return files 
 
-
-filename = get_files_from_folder("bittorent_in",".dat","ignore",True)
-
- 
-
-
 def string_io_pandas_example():
+    """
+    This an example of using string io
+    """
     import io
     output = io.StringIO()
     output.write('x,y\n')
     output.write('1,2\n')
     output.seek(0)
     df = pd.read_csv(output)
+    return df
     
+#%%------------------------------------------------------------------------------
 def lsplit_into_two(string):
     return ([""]+string.split(":",1))[-2:]
-
-
-def read_dat_file_to_list(filename):
-    with open(filename,'r', encoding="ISO-8859-1") as fileobj:#'utf-8'
-         data = [line for line in fileobj.readlines()]
-    data2 = "\n".join(data)
-    *data2_start,data2 = data2.split(":",3)
-    data2 = data2.split("webseedslee")
-    data2 = [ lsplit_into_two(line) for line in data2]
-    data3 = []
-    for line,next_line in zip(data2,data2[1:]):
-        if len(data3)==0:
-            line_new = ":".join(line)
-        else:
-            line_new = line[1]
-        data3.append(line_new+":"+next_line[0])
-    return data3
-
-
-
-
-
-
-
-
 
 def split_by_brackets(string,before="{",after="}"):
     """
@@ -81,48 +63,73 @@ def split_by_brackets(string,before="{",after="}"):
               out[-1] = out[-1]+line[0]
            else:
               out.extend([line[0], after+line[1]])
-    return out    
- 
+    return out 
 
- 
+def read_raw_data(filename):
+    with open(filename,'r', encoding="ISO-8859-1") as fileobj:#'utf-8'
+         data = [line for line in fileobj.readlines()]  
+    return data
 
-def get_completedate(string,before="completei",after="e11",gettime=True):
-#    global string2
-#    string2=string
-#    global data
+#%%------------------------------------------------------------------------------
+
+
+
+
+def convert_raw_data_to_list_with_each_torrents_data_as_a_element(raw_data0):
+    string_just_before_start_of_torrent = "webseedslee"
+    data2 = "\n".join(raw_data0)
+    *data2_start,data2 = data2.split(":",3)
+    data2_start = ":".join(data2_start)
+    data2 = data2.split(string_just_before_start_of_torrent)
+    data2 = [ lsplit_into_two(line) for line in data2]
+    
+    data3 = []
+    for line,next_line in zip(data2,data2[1:]):
+        if len(data3)==0:
+            line_new = ":".join(line)
+        else:
+            line_new = line[1]
+        data3.append(line_new+string_just_before_start_of_torrent+next_line[0]+":")
+    data3[-1] =data3[-1][:-1]
+    data2_finish ="".join(data2[-1])
+    assert "\n".join(raw_data0) == data2_start+":" + "".join(data3)+data2_finish,"Some data is lost "
+        
+    return data3,data2_start,data2_finish
+
+def convert_torrent_list_to_df__complete_date(string,before="completei",after="e11",gettime=True):
     data = split_by_brackets(string,before,after)
     if len(data)>1:
-       print(data) 
-       out_int=time.ctime(int(data[1]))
+       out_int = time.ctime(int(data[1]))
        return out_int
     return None
  
-
-
-
-
-data = read_dat_file_to_list(filename)
-
-def quick_dataframe(data):
-    
+def convert_torrent_list_to_df(data):
+    """
+    Add more columns if needed
+    """
     completed_lis = []
     for string in data:
-        date = get_completedate(string)
+        date = convert_torrent_list_to_df__complete_date(string)
         completed_lis.append(date)
     df = pd.DataFrame(columns=["Name"],data = [line.split(".torrentd8:")[0] for line in data])
     df["Completed"] = completed_lis
+    df["Completed"] = pd.to_datetime(df["Completed"] )
     return df
 
-df = quick_dataframe(data)
-df["Completed2"] = pd.to_datetime(df["Completed"] )
-
-df_recent = df[df["Name"].apply( lambda x: any([ n in x for n in ["2016","2017","2018","2019"]]))]
-
- 
-#
+#%%------------------------------------------------------------------------------
 
 
-
+if __name__ == "__main__":
+    
+    filename = get_files_from_folder("bittorent_in",".dat","ignore",True)
+    raw_data0 = read_raw_data(filename)
+    
+    data__torrents1, *_extra = convert_raw_data_to_list_with_each_torrents_data_as_a_element(raw_data0)
+    torrent_df = convert_torrent_list_to_df(data__torrents1)
+    
+    torrent_recent_df = torrent_df[torrent_df["Name"].apply( lambda x: any([ n in x for n in ["2016","2017","2018","2019"]]))]
+    
+     
 
 
 
